@@ -46,6 +46,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=builder /src/build/nheqminer /usr/local/bin/
 
+RUN useradd --create-home --shell /bin/false miner
+USER miner
+
 # Default: run with help to show usage
 ENTRYPOINT ["nheqminer"]
 CMD ["-h"]
