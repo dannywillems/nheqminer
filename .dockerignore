@@ -1,0 +1,9 @@
+build/
+.git/
+*.o
+*.a
+*.so
+*.exe
+.vscode/
+.idea/
+*.md
