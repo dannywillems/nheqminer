@@ -31,6 +31,8 @@ The format is based on
 - Pin the CI build runner to ubuntu-24.04 ([622d0e9], [#4])
 - Replace the README build and run instructions with a pointer to the
   documentation site ([f3f8d25], [#8])
+- Document the Stratum protocol and how to connect nheqminer to Zebra
+  through an s-nomp Stratum server ([d224020], [#10])
 
 ### Fixed
 
@@ -59,6 +61,7 @@ The format is based on
 [c753dcd]: https://github.com/dannywillems/nheqminer/commit/c753dcd
 [f3f8d25]: https://github.com/dannywillems/nheqminer/commit/f3f8d25
 [cbbdcba]: https://github.com/dannywillems/nheqminer/commit/cbbdcba
+[d224020]: https://github.com/dannywillems/nheqminer/commit/d224020
 
 <!-- PR links -->
 
@@ -70,3 +73,4 @@ The format is based on
 [#7]: https://github.com/dannywillems/nheqminer/pull/7
 [#8]: https://github.com/dannywillems/nheqminer/pull/8
 [#9]: https://github.com/dannywillems/nheqminer/pull/9
+[#10]: https://github.com/dannywillems/nheqminer/pull/10
