@@ -46,6 +46,12 @@ The format is based on
 - Fix math rendering on the documentation site by correcting the KaTeX
   stylesheet integrity hash ([cbbdcba], [#9])
 
+### Infrastructure
+
+- Automatically add a changelog entry to Dependabot pull requests, and
+  track the documentation site (Docusaurus) dependencies ([d9d0677],
+  [#11])
+
 <!-- Commit links -->
 
 [68bdb13]: https://github.com/dannywillems/nheqminer/commit/68bdb13
@@ -62,6 +68,7 @@ The format is based on
 [f3f8d25]: https://github.com/dannywillems/nheqminer/commit/f3f8d25
 [cbbdcba]: https://github.com/dannywillems/nheqminer/commit/cbbdcba
 [d224020]: https://github.com/dannywillems/nheqminer/commit/d224020
+[d9d0677]: https://github.com/dannywillems/nheqminer/commit/d9d0677
 
 <!-- PR links -->
 
@@ -74,3 +81,4 @@ The format is based on
 [#8]: https://github.com/dannywillems/nheqminer/pull/8
 [#9]: https://github.com/dannywillems/nheqminer/pull/9
 [#10]: https://github.com/dannywillems/nheqminer/pull/10
+[#11]: https://github.com/dannywillems/nheqminer/pull/11
