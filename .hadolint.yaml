@@ -1,0 +1,5 @@
+# hadolint configuration
+# https://github.com/hadolint/hadolint
+
+# Fail the build on warnings and above so real issues are not silently ignored.
+failure-threshold: warning
