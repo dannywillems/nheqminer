@@ -9,6 +9,20 @@ nheqminer connects to a mining endpoint over the Stratum protocol and submits
 Equihash solutions. This page lists the command-line parameters and describes
 how to mine toward a [Zebra](https://zebra.zfnd.org/) (`zebrad`) node.
 
+## What is Stratum
+
+Stratum is the network protocol between a miner and a mining pool. Instead of
+each miner polling a node's `getblocktemplate` RPC, the pool pushes work to the
+miner (a `mining.notify` message carrying the header fields to hash and a
+target), and the miner submits shares at a difficulty the pool sets below the
+network difficulty. This keeps many miners busy and lets the pool measure each
+miner's contribution without waiting for a full block.
+
+Zcash uses a Stratum V1 variant (line-based JSON-RPC over TCP) defined by
+[ZIP 301](https://zips.z.cash/zip-0301), which differs from Bitcoin's Stratum
+because of the different block header format and proof-of-work algorithm.
+nheqminer speaks this protocol.
+
 ## Running the miner
 
 After [building](./build), the binary is `build/nheqminer`. The basic form
@@ -47,45 +61,61 @@ Example with CPU and two CUDA devices:
 ./build/nheqminer -l HOST:PORT -u ADDRESS.worker1 -t 4 -cd 0 1
 ```
 
-## How nheqminer talks to a node
+## Connecting to a Stratum instance
 
-nheqminer is a Stratum client. It does not call a node's RPC directly.
-Zebra exposes the mining RPC methods (`getblocktemplate`, `submitblock`),
-not Stratum. To mine toward a `zebrad` node you therefore need a Stratum
-endpoint in front of it: either a mining pool, or a solo Stratum bridge that
-speaks `getblocktemplate`/`submitblock` to `zebrad` and Stratum to the miner.
-
-The data flow is:
+nheqminer is a Stratum client; it does not call a node's RPC directly. Zebra
+exposes the mining RPC methods (`getblocktemplate`, `submitblock`), not
+Stratum. To mine toward a `zebrad` node you run a Stratum server (a pool) in
+front of it. The data flow is:
 
 ```text
-nheqminer  --Stratum-->  Stratum endpoint  --getblocktemplate/submitblock-->  zebrad
+nheqminer  --Stratum (ZIP 301)-->  Stratum server (s-nomp)  --getblocktemplate-->  zebrad
 ```
 
-## Configuring zebrad
+`s-nomp` is the Stratum server used here; it connects to Zebra's RPC and
+exposes a Stratum port for miners. See the walkthrough linked below for the
+exact fork and setup.
 
-Enable Zebra's RPC endpoint and set the address that receives the coinbase.
-The exact configuration keys depend on your Zebra version; the snippet below
-is illustrative. Check the
-[Mining with Zebra](https://zebra.zfnd.org/user/mining.html) guide for the
-keys that match your build.
+### 1. Configure zebrad
+
+Set a transparent mining address (Zebra accepts p2pkh or p2sh transparent
+addresses) and enable the RPC endpoint. The default RPC port is `8232` on
+mainnet and `18232` on testnet.
 
 ```toml
+network = "Testnet"
+
 [rpc]
-# Address the mining RPC listens on. Keep it on localhost unless the
-# Stratum bridge runs on another host on a trusted network.
-listen_addr = "127.0.0.1:8232"
+# Keep this on localhost unless the Stratum server runs elsewhere on a
+# trusted network.
+listen_addr = "127.0.0.1:18232"
+# Zebra v2.0.0+ enables cookie authentication by default; the s-nomp fork
+# connects without it, so disable it.
+enable_cookie_auth = false
 
 [mining]
 # Transparent address that receives the block reward.
 miner_address = "t1ExampleTransparentAddress"
 ```
 
-Then point the Stratum endpoint at this RPC, and point nheqminer at the
-Stratum endpoint:
+### 2. Run the Stratum server
+
+Run `s-nomp` pointed at Zebra's RPC port. It exposes a Stratum port that
+miners connect to.
+
+### 3. Point nheqminer at the Stratum port
 
 ```bash
 ./build/nheqminer -l 127.0.0.1:STRATUM_PORT -u t1ExampleTransparentAddress.worker1 -t 4
 ```
+
+:::tip Full walkthrough
+
+For an end-to-end setup (the `zebrad.toml` config, running `s-nomp`, and a
+testnet mining run), see the blog post:
+[Zcash mining with Zebra and Stratum](https://dannywillems.github.io/blog/2026/06/02/zcash-mining-zebra-stratum/).
+
+:::
 
 ## Notes
 
