@@ -1,0 +1,13 @@
+# Dependencies
+/node_modules/
+/package-lock.json
+
+# Production build
+/build/
+
+# Docusaurus cache and generated files
+/.docusaurus/
+
+# Misc
+.DS_Store
+*.log

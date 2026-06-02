@@ -1,0 +1,25 @@
+{
+  "name": "nheqminer-docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Live documentation for the nheqminer Equihash CPU miner",
+  "dependencies": {
+    "@docusaurus/core": "^3.10.0",
+    "@docusaurus/preset-classic": "^3.10.0",
+    "@easyops-cn/docusaurus-search-local": "^0.52.0",
+    "prism-react-renderer": "^2.4.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.10.0",
+    "@docusaurus/tsconfig": "^3.10.0",
+    "@docusaurus/types": "^3.10.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}
