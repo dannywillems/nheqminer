@@ -10,7 +10,11 @@ const config: Config = {
   tagline: 'Equihash CPU miner for Zcash: live build and mining docs',
 
   url: 'https://dannywillems.github.io',
-  baseUrl: '/',
+  baseUrl: '/nheqminer/',
+
+  // GitHub Pages project-site deployment target.
+  organizationName: 'dannywillems',
+  projectName: 'nheqminer',
 
   onBrokenLinks: 'throw',
 
