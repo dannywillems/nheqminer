@@ -1,0 +1,69 @@
+---
+sidebar_position: 2
+title: Build
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import buildDebian from '@scripts/build-debian.sh';
+import buildDocker from '@scripts/build-docker.sh';
+
+# Build
+
+To build the CPU miner, run one script. The two scripts below are imported
+directly from the repository and run unchanged in CI, so what you read here
+is exactly what is tested.
+
+## Debian / Ubuntu (native)
+
+Builds the CPU xenoncat solver. The script installs Boost, CMake, and the
+fasm assembler, assembles the AVX objects, then configures and compiles with
+CMake.
+
+```bash
+./scripts/build-debian.sh
+```
+
+Pass a build directory as the first argument, or set `SKIP_DEPS=1` to skip
+the apt-get step if the dependencies are already installed:
+
+```bash
+SKIP_DEPS=1 ./scripts/build-debian.sh /tmp/nheqminer-build
+```
+
+The full script:
+
+<CodeBlock language="bash" title="scripts/build-debian.sh">
+  {buildDebian}
+</CodeBlock>
+
+The resulting binary is `build/nheqminer`.
+
+## Docker (any platform)
+
+Builds the image from the repository `Dockerfile`, with no local Boost,
+CMake, or fasm required.
+
+```bash
+./scripts/build-docker.sh
+```
+
+The full script:
+
+<CodeBlock language="bash" title="scripts/build-docker.sh">
+  {buildDocker}
+</CodeBlock>
+
+Run the resulting image:
+
+```bash
+docker run --rm nheqminer:local -h
+```
+
+## What the build produces
+
+Both paths build the `nheqminer` executable with the CPU xenoncat solver
+(`USE_CPU_XENONCAT=ON`) and the CUDA solvers disabled. To enable a CUDA
+solver, configure CMake with `-DUSE_CUDA_DJEZO=ON` and the CUDA toolkit
+installed; that path is not covered by these scripts or by CI.
+
+Once built, continue to [Mining with Zebra](./mining-with-zebra).

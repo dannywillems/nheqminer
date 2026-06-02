@@ -9,8 +9,8 @@ on:
       - zebra-mining
 
 jobs:
-  build:
-    name: Build (CPU xenoncat)
+  build-linux:
+    name: Build (Debian/Ubuntu, CPU xenoncat)
     # Pinned to 24.04: the project uses the legacy CMake FindBoost module,
     # which is removed on newer images (Boost 1.90 / CMake 4.x, policy
     # CMP0167), so ubuntu-latest will break the build once it advances.
@@ -19,32 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            cmake \
-            fasm \
-            libboost-system-dev \
-            libboost-log-dev \
-            libboost-date-time-dev \
-            libboost-filesystem-dev \
-            libboost-thread-dev
+      # Run the same script the documentation embeds, so the published
+      # build instructions are verified on every change.
+      - name: Build via scripts/build-debian.sh
+        run: ./scripts/build-debian.sh
 
-      - name: Assemble xenoncat AVX objects
-        working-directory: cpu_xenoncat/asm_linux
-        run: |
-          fasm -m 1280000 equihash_avx1.asm
-          fasm -m 1280000 equihash_avx2.asm
+  build-docker:
+    name: Build (Docker image)
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Configure
-        run: |
-          cmake -S . -B build \
-            -DUSE_CPU_XENONCAT=ON \
-            -DUSE_CPU_TROMP=OFF \
-            -DUSE_CUDA_DJEZO=OFF \
-            -DUSE_CUDA_TROMP=OFF
-
-      - name: Build
-        run: cmake --build build -j"$(nproc)"
+      - name: Build via scripts/build-docker.sh
+        run: ./scripts/build-docker.sh

@@ -424,3 +424,9 @@ build
 !3rdparty/**
 !cpu_xenoncat/asm/**
 cpu_xenoncat/asm/*.obj
+
+# Intentionally tracked files that the broad Qt Creator patterns above
+# (Makefile*, *build-*) would otherwise ignore.
+!scripts/build-debian.sh
+!scripts/build-docker.sh
+!doc/Makefile
