@@ -11,7 +11,10 @@ on:
 jobs:
   build:
     name: Build (CPU xenoncat)
-    runs-on: ubuntu-latest
+    # Pinned to 24.04: the project uses the legacy CMake FindBoost module,
+    # which is removed on newer images (Boost 1.90 / CMake 4.x, policy
+    # CMP0167), so ubuntu-latest will break the build once it advances.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
