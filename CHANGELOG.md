@@ -41,6 +41,8 @@ The format is based on
   [#3])
 - Fix the xenoncat AVX object path so the build works regardless of the
   build directory location ([c753dcd], [#4])
+- Fix math rendering on the documentation site by correcting the KaTeX
+  stylesheet integrity hash ([cbbdcba], [#9])
 
 <!-- Commit links -->
 
@@ -56,6 +58,7 @@ The format is based on
 [622d0e9]: https://github.com/dannywillems/nheqminer/commit/622d0e9
 [c753dcd]: https://github.com/dannywillems/nheqminer/commit/c753dcd
 [f3f8d25]: https://github.com/dannywillems/nheqminer/commit/f3f8d25
+[cbbdcba]: https://github.com/dannywillems/nheqminer/commit/cbbdcba
 
 <!-- PR links -->
 
@@ -66,3 +69,4 @@ The format is based on
 [#6]: https://github.com/dannywillems/nheqminer/pull/6
 [#7]: https://github.com/dannywillems/nheqminer/pull/7
 [#8]: https://github.com/dannywillems/nheqminer/pull/8
+[#9]: https://github.com/dannywillems/nheqminer/pull/9
