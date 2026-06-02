@@ -1,0 +1,24 @@
+version: 2
+
+updates:
+  # Keep the GitHub Actions used by the workflows up to date.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "zebra-mining"
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Keep the Docker base image (debian:bookworm-slim) up to date.
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "zebra-mining"
+    commit-message:
+      prefix: "docker"
